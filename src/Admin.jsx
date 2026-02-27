@@ -13,10 +13,9 @@ function Admin() {
 
   useEffect(() => {
     if (isAuthenticated) {
-      fetch('https://elders-care-backend.onrender.com/api/bookings')
+      ('fetch('https://elders-care-backend.onrender.com/api/homes')/api/bookings')
         .then(res => res.json())
-        .then(data => setBookings(data))
-        .catch(err => console.error("Error fetching bookings:", err));
+        .then(data => setBookings(data));
     }
   }, [isAuthenticated]);
 
@@ -33,7 +32,7 @@ function Admin() {
   const handleDelete = async (id) => {
     if (!window.confirm("Delete this booking?")) return;
     try {
-      const response = await fetch(`https://elders-care-backend.onrender.com/api/bookings/${id}`, {
+      const response = await (`fetch('https://elders-care-backend.onrender.com/api/homes')/api/bookings/${id}`, {
         method: 'DELETE',
       });
       if (response.ok) {
@@ -42,7 +41,7 @@ function Admin() {
         alert("Failed to delete booking.");
       }
     } catch (error) {
-      console.error("Delete error:", error);
+      console.error(error);
     }
   };
 

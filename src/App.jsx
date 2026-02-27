@@ -21,7 +21,8 @@ function App() {
 
   const handleBooking = (e) => {
     e.preventDefault();
-    fetch('fetch('https://elders-care-backend.onrender.com/api/homes')/api/bookings', {
+    // FIXED: Cleaned up the fetch URL syntax below
+    fetch('https://elders-care-backend.onrender.com/api/bookings', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

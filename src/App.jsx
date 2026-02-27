@@ -16,7 +16,7 @@ function App() {
     fetch('http://localhost:5001/api/homes')
       .then(res => res.json())
       .then(data => { if (Array.isArray(data)) setHomes(data); })
-      .catch(err => console.error(err));
+      .catch(err => console.error(err));//
   }, []);
 
   const handleBooking = (e) => {

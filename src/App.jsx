@@ -7,21 +7,27 @@ function App() {
   const [formData, setFormData] = useState({ name: '', phone: '' });
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
 
+  // Backend Base URL - Live Render Link
+  const API_BASE_URL = 'https://elders-care-backend.onrender.com/api';
+
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
     localStorage.setItem('theme', theme);
   }, [theme]);
 
   useEffect(() => {
-    fetch('http://localhost:5001/api/homes')
+    // Fetching from live Render backend
+    fetch(`${API_BASE_URL}/homes`)
       .then(res => res.json())
-      .then(data => { if (Array.isArray(data)) setHomes(data); })
-      .catch(err => console.error(err));//
+      .then(data => { 
+        if (Array.isArray(data)) setHomes(data); 
+      })
+      .catch(err => console.error("Fetch Error:", err));
   }, []);
 
   const handleBooking = (e) => {
     e.preventDefault();
-    fetch('http://localhost:5001/api/bookings', {
+    fetch(`${API_BASE_URL}/bookings`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -30,11 +36,15 @@ function App() {
         userName: formData.name,
         userPhone: formData.phone
       })
-    }).then(() => {
-      alert("Booking Request Sent for " + selectedHome.city);
-      setSelectedHome(null);
-      setFormData({ name: '', phone: '' });
-    });
+    })
+    .then(res => {
+      if(res.ok) {
+        alert("Booking Request Sent for " + selectedHome.city);
+        setSelectedHome(null);
+        setFormData({ name: '', phone: '' });
+      }
+    })
+    .catch(err => console.error("Booking Error:", err));
   };
 
   const toggleTheme = () => setTheme(theme === 'light' ? 'dark' : 'light');
@@ -42,10 +52,12 @@ function App() {
   return (
     <div style={{ margin: 0, padding: '40px', backgroundColor: 'var(--bg-main)', minHeight: '100vh', width: '100vw', boxSizing: 'border-box', color: 'var(--text-main)', transition: 'all 0.3s' }}>
       
+      {/* Theme Toggle Button */}
       <button onClick={toggleTheme} style={{ position: 'fixed', bottom: '30px', right: '30px', padding: '15px 20px', borderRadius: '30px', background: 'var(--text-main)', color: 'var(--bg-main)', border: 'none', cursor: 'pointer', zIndex: 1000, fontWeight: 'bold', boxShadow: '0 4px 10px rgba(0,0,0,0.2)' }}>
         {theme === 'light' ? '🌙 Dark Mode' : '☀️ Light Mode'}
       </button>
 
+      {/* Header Section */}
       <header style={{ width: '100%', padding: '50px 0', textAlign: 'center', background: 'var(--bg-card)', borderRadius: '15px', marginBottom: '30px', boxShadow: '0 4px 6px rgba(0,0,0,0.05)' }}>
         <h1 style={{ fontSize: '3.5rem', margin: 0, color: 'var(--text-main)' }}>Elder's Care</h1>
         <p style={{ fontSize: '1.2rem', color: 'var(--text-muted)' }}>"Where Every Smile Tells a Story"</p>
@@ -58,11 +70,17 @@ function App() {
         />
       </header>
 
+      {/* Grid Section */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '30px', width: '100%' }}>
         {homes.length === 0 && <p style={{textAlign: 'center', width: '100%'}}>Loading branches...</p>}
         {homes.filter(h => h.city?.toLowerCase().includes(searchTerm.toLowerCase())).map(home => (
           <div key={home._id} style={{ background: 'var(--bg-card)', borderRadius: '20px', overflow: 'hidden', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)' }}>
-            <img src={home.images[0]} style={{ width: '100%', height: '260px', objectFit: 'cover' }} alt={home.city} />
+            <img 
+              src={home.images[0]} 
+              style={{ width: '100%', height: '260px', objectFit: 'cover' }} 
+              alt={home.city}
+              onError={(e) => { e.target.src = 'https://placehold.co/600x400?text=Image+Loading...'; }} 
+            />
             <div style={{ padding: '25px' }}>
               <h2 style={{ margin: '0 0 10px 0', color: 'var(--text-main)' }}>{home.city} Branch</h2>
               <p style={{ color: 'var(--text-muted)', marginBottom: '20px' }}>📍 {home.address}</p>
@@ -78,6 +96,7 @@ function App() {
         ))}
       </div>
 
+      {/* Booking Modal */}
       {selectedHome && (
         <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', background: 'rgba(0,0,0,0.6)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 1000 }}>
           <div style={{ background: 'var(--bg-card)', padding: '40px', borderRadius: '20px', width: '400px' }}>

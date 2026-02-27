@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import Admin from './Admin'; // Make sure Admin.jsx is in the same folder
 
 function App() {
   const [homes, setHomes] = useState([]);
@@ -6,6 +7,9 @@ function App() {
   const [selectedHome, setSelectedHome] = useState(null);
   const [formData, setFormData] = useState({ name: '', phone: '' });
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
+  
+  // Simple routing logic
+  const [currentPath, setCurrentPath] = useState(window.location.pathname);
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
@@ -21,7 +25,6 @@ function App() {
 
   const handleBooking = (e) => {
     e.preventDefault();
-    // FIXED: Cleaned up the fetch URL syntax below
     fetch('https://elders-care-backend.onrender.com/api/bookings', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -40,6 +43,12 @@ function App() {
 
   const toggleTheme = () => setTheme(theme === 'light' ? 'dark' : 'light');
 
+  // IF THE URL IS /admin, SHOW THE ADMIN COMPONENT
+  if (currentPath === '/admin') {
+    return <Admin />;
+  }
+
+  // OTHERWISE, SHOW THE MAIN HOMEPAGE
   return (
     <div style={{ margin: 0, padding: '40px', backgroundColor: 'var(--bg-main)', minHeight: '100vh', width: '100vw', boxSizing: 'border-box', color: 'var(--text-main)', transition: 'all 0.3s' }}>
       
@@ -57,6 +66,9 @@ function App() {
           onChange={(e) => setSearchTerm(e.target.value)}
           style={{ padding: '15px 25px', width: '80%', maxWidth: '600px', borderRadius: '30px', border: '2px solid var(--border-color)', marginTop: '20px', fontSize: '1rem', background: 'var(--bg-main)', color: 'var(--text-main)' }}
         />
+        <div style={{marginTop: '10px'}}>
+           <a href="/admin" style={{color: 'var(--text-muted)', textDecoration: 'none', fontSize: '0.8rem'}}>Admin Login</a>
+        </div>
       </header>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '30px', width: '100%' }}>

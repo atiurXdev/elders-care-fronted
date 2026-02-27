@@ -6,6 +6,9 @@ function Admin() {
   const [password, setPassword] = useState("");
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
 
+  // Backend Base URL
+  const API_BASE_URL = 'https://elders-care-backend.onrender.com/api';
+
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
     localStorage.setItem('theme', theme);
@@ -13,14 +16,17 @@ function Admin() {
 
   useEffect(() => {
     if (isAuthenticated) {
-      ('fetch('https://elders-care-backend.onrender.com/api/homes')/api/bookings')
+      // Corrected Fetch Syntax
+      fetch(`${API_BASE_URL}/bookings`)
         .then(res => res.json())
-        .then(data => setBookings(data));
+        .then(data => setBookings(data))
+        .catch(err => console.error("Admin Fetch Error:", err));
     }
   }, [isAuthenticated]);
 
   const handleLogin = (e) => {
     e.preventDefault();
+    // Atiur, password check karein
     if (password === "atiur2026") {
       setIsAuthenticated(true);
     } else {
@@ -32,7 +38,8 @@ function Admin() {
   const handleDelete = async (id) => {
     if (!window.confirm("Delete this booking?")) return;
     try {
-      const response = await (`fetch('https://elders-care-backend.onrender.com/api/homes')/api/bookings/${id}`, {
+      // Corrected Delete Syntax
+      const response = await fetch(`${API_BASE_URL}/bookings/${id}`, {
         method: 'DELETE',
       });
       if (response.ok) {
@@ -65,24 +72,20 @@ function Admin() {
             </button>
           </form>
         </div>
-        <button onClick={toggleTheme} style={{ position: 'fixed', bottom: '30px', right: '30px', padding: '15px 20px', borderRadius: '30px', background: 'var(--text-main)', color: 'var(--bg-card)', border: 'none', cursor: 'pointer', zIndex: 1000, fontWeight: 'bold', boxShadow: '0 4px 10px rgba(0,0,0,0.2)' }}>
-          {theme === 'light' ? '🌙 Dark Mode' : '☀️ Light Mode'}
-        </button>
       </div>
     );
   }
 
   return (
     <div style={{ padding: '40px', fontFamily: 'sans-serif', color: 'var(--text-main)', minHeight: '100vh', background: 'var(--bg-main)', transition: 'all 0.3s' }}>
-      <button onClick={toggleTheme} style={{ position: 'fixed', bottom: '30px', right: '30px', padding: '15px 20px', borderRadius: '30px', background: 'var(--text-main)', color: 'var(--bg-card)', border: 'none', cursor: 'pointer', zIndex: 1000, fontWeight: 'bold', boxShadow: '0 4px 10px rgba(0,0,0,0.2)' }}>
-        {theme === 'light' ? '🌙 Dark Mode' : '☀️ Light Mode'}
-      </button>
-
+      
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <h1 style={{ color: 'var(--text-main)', margin: 0 }}>Elder's Care - Admin Panel</h1>
-        <button onClick={() => setIsAuthenticated(false)} style={{ padding: '10px 15px', background: '#ef4444', color: 'white', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold' }}>Logout</button>
+        <div>
+           <button onClick={() => window.location.href = '/'} style={{ padding: '10px 15px', background: '#4b5563', color: 'white', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold', marginRight: '10px' }}>Home Page</button>
+           <button onClick={() => setIsAuthenticated(false)} style={{ padding: '10px 15px', background: '#ef4444', color: 'white', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold' }}>Logout</button>
+        </div>
       </div>
-      <p style={{ color: 'var(--text-muted)' }}>Manage your branch booking requests below.</p>
       
       <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: '20px', background: 'var(--bg-card)', boxShadow: '0 4px 6px rgba(0,0,0,0.05)', borderRadius: '10px', overflow: 'hidden' }}>
         <thead>

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import Chatbot from './Chatbot';
 
 function App() {
   const [homes, setHomes] = useState([]);
@@ -20,7 +21,7 @@ function App() {
       .then(data => { 
         if (Array.isArray(data)) setHomes(data); 
       })
-      .catch(err => console.error("Fetch Error:", err));
+      .catch(err => console.error(err));
   }, []);
 
   const handleBooking = (e) => {
@@ -42,7 +43,7 @@ function App() {
         setFormData({ name: '', phone: '' });
       }
     })
-    .catch(err => console.error("Booking Error:", err));
+    .catch(err => console.error(err));
   };
 
   const toggleTheme = () => setTheme(theme === 'light' ? 'dark' : 'light');
@@ -78,7 +79,20 @@ function App() {
             />
             <div style={{ padding: '25px' }}>
               <h2 style={{ margin: '0 0 10px 0', color: 'var(--text-main)' }}>{home.city} Branch</h2>
-              <p style={{ color: 'var(--text-muted)', marginBottom: '20px' }}>📍 {home.address}</p>
+              <p style={{ color: 'var(--text-muted)', marginBottom: '10px' }}>📍 {home.address}</p>
+              
+              <div style={{ marginTop: '10px', marginBottom: '15px', borderRadius: '10px', overflow: 'hidden', height: '150px' }}>
+                <iframe
+                  title={`Map-${home.city}`}
+                  src={`https://maps.google.com/maps?q=${home.city}+West+Bengal&t=&z=13&ie=UTF8&iwloc=&output=embed`}
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  allowFullScreen=""
+                  loading="lazy"
+                ></iframe>
+              </div>
+
               <div style={{ background: 'var(--bg-main)', padding: '15px', borderRadius: '12px', marginBottom: '20px' }}>
                 <span style={{ fontWeight: 'bold', color: '#2563eb', fontSize: '1.2rem' }}>₹{home.rooms[0]?.price || 'N/A'}</span>
                 <span style={{ color: 'var(--text-muted)' }}> / month</span>
@@ -105,7 +119,8 @@ function App() {
         </div>
       )}
 
-      {/* Footer with Personal Links */}
+      <Chatbot />
+
       <footer style={{ 
         marginTop: '50px', 
         padding: '40px 20px', 

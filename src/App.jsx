@@ -7,7 +7,6 @@ function App() {
   const [formData, setFormData] = useState({ name: '', phone: '' });
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
 
-  // Backend Base URL - Live Render Link
   const API_BASE_URL = 'https://elders-care-backend.onrender.com/api';
 
   useEffect(() => {
@@ -16,7 +15,6 @@ function App() {
   }, [theme]);
 
   useEffect(() => {
-    // Fetching from live Render backend
     fetch(`${API_BASE_URL}/homes`)
       .then(res => res.json())
       .then(data => { 
@@ -52,12 +50,10 @@ function App() {
   return (
     <div style={{ margin: 0, padding: '40px', backgroundColor: 'var(--bg-main)', minHeight: '100vh', width: '100vw', boxSizing: 'border-box', color: 'var(--text-main)', transition: 'all 0.3s' }}>
       
-      {/* Theme Toggle Button */}
       <button onClick={toggleTheme} style={{ position: 'fixed', bottom: '30px', right: '30px', padding: '15px 20px', borderRadius: '30px', background: 'var(--text-main)', color: 'var(--bg-main)', border: 'none', cursor: 'pointer', zIndex: 1000, fontWeight: 'bold', boxShadow: '0 4px 10px rgba(0,0,0,0.2)' }}>
         {theme === 'light' ? '🌙 Dark Mode' : '☀️ Light Mode'}
       </button>
 
-      {/* Header Section */}
       <header style={{ width: '100%', padding: '50px 0', textAlign: 'center', background: 'var(--bg-card)', borderRadius: '15px', marginBottom: '30px', boxShadow: '0 4px 6px rgba(0,0,0,0.05)' }}>
         <h1 style={{ fontSize: '3.5rem', margin: 0, color: 'var(--text-main)' }}>Elder's Care</h1>
         <p style={{ fontSize: '1.2rem', color: 'var(--text-muted)' }}>"Where Every Smile Tells a Story"</p>
@@ -70,7 +66,6 @@ function App() {
         />
       </header>
 
-      {/* Grid Section */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '30px', width: '100%' }}>
         {homes.length === 0 && <p style={{textAlign: 'center', width: '100%'}}>Loading branches...</p>}
         {homes.filter(h => h.city?.toLowerCase().includes(searchTerm.toLowerCase())).map(home => (
@@ -96,7 +91,6 @@ function App() {
         ))}
       </div>
 
-      {/* Booking Modal */}
       {selectedHome && (
         <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', background: 'rgba(0,0,0,0.6)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 1000 }}>
           <div style={{ background: 'var(--bg-card)', padding: '40px', borderRadius: '20px', width: '400px' }}>
@@ -111,7 +105,7 @@ function App() {
         </div>
       )}
 
-      {/* Professional Footer */}
+      {/* Footer with Personal Links */}
       <footer style={{ 
         marginTop: '50px', 
         padding: '40px 20px', 
@@ -131,17 +125,18 @@ function App() {
             <p style={{ margin: '5px 0', fontSize: '0.9rem' }}>📧 atiur332@gmail.com</p>
           </div>
           <div style={{ textAlign: 'left' }}>
-            <h4 style={{ margin: '0 0 10px 0' }}>Quick Links</h4>
-            <p style={{ margin: '5px 0', fontSize: '0.9rem', cursor: 'pointer' }} onClick={() => window.scrollTo(0,0)}>Back to Top</p>
-            <p style={{ margin: '5px 0', fontSize: '0.9rem', cursor: 'pointer' }} onClick={() => window.location.href='/admin'}>Admin Login</p>
+            <h4 style={{ margin: '0 0 10px 0' }}>Connect with Developer</h4>
+            <div style={{ display: 'flex', gap: '15px', marginTop: '10px' }}>
+              <a href="https://www.linkedin.com/in/atiur-iem2023/" target="_blank" rel="noreferrer" style={{ textDecoration: 'none', color: '#0077b5', fontWeight: 'bold' }}>LinkedIn</a>
+              <a href="https://github.com/atiurXdev" target="_blank" rel="noreferrer" style={{ textDecoration: 'none', color: 'var(--text-main)', fontWeight: 'bold' }}>GitHub</a>
+            </div>
           </div>
         </div>
         <hr style={{ border: 'none', borderTop: '1px solid var(--border-color)', marginBottom: '20px' }} />
         <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
-          © 2026 Elder's Care. All Rights Reserved. Built with ❤️ by Atiur Rahaman.
+          © 2026 Elder's Care. All Rights Reserved. Built with ❤️ by <span style={{ color: '#2563eb', fontWeight: 'bold' }}>Atiur Rahaman</span>.
         </p>
       </footer>
-
     </div>
   );
 }

@@ -110,6 +110,38 @@ function App() {
           </div>
         </div>
       )}
+
+      {/* Professional Footer */}
+      <footer style={{ 
+        marginTop: '50px', 
+        padding: '40px 20px', 
+        background: 'var(--bg-card)', 
+        borderRadius: '20px 20px 0 0', 
+        textAlign: 'center',
+        borderTop: '1px solid var(--border-color)'
+      }}>
+        <div style={{ display: 'flex', justifyContent: 'space-around', flexWrap: 'wrap', gap: '20px', marginBottom: '30px' }}>
+          <div style={{ textAlign: 'left', minWidth: '200px' }}>
+            <h3 style={{ color: '#2563eb' }}>Elder's Care</h3>
+            <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>Providing a home away from home with love and dignity.</p>
+          </div>
+          <div style={{ textAlign: 'left' }}>
+            <h4 style={{ margin: '0 0 10px 0' }}>Contact Us</h4>
+            <p style={{ margin: '5px 0', fontSize: '0.9rem' }}>📞 +91 7908879430</p>
+            <p style={{ margin: '5px 0', fontSize: '0.9rem' }}>📧 atiur332@gmail.com</p>
+          </div>
+          <div style={{ textAlign: 'left' }}>
+            <h4 style={{ margin: '0 0 10px 0' }}>Quick Links</h4>
+            <p style={{ margin: '5px 0', fontSize: '0.9rem', cursor: 'pointer' }} onClick={() => window.scrollTo(0,0)}>Back to Top</p>
+            <p style={{ margin: '5px 0', fontSize: '0.9rem', cursor: 'pointer' }} onClick={() => window.location.href='/admin'}>Admin Login</p>
+          </div>
+        </div>
+        <hr style={{ border: 'none', borderTop: '1px solid var(--border-color)', marginBottom: '20px' }} />
+        <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+          © 2026 Elder's Care. All Rights Reserved. Built with ❤️ by Atiur Rahaman.
+        </p>
+      </footer>
+
     </div>
   );
 }

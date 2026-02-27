@@ -21,9 +21,22 @@ html, body, #root {
   height: 100%;
   background-color: var(--bg-main);
   color: var(--text-main);
+  font-family: system-ui, -apple-system, sans-serif; /* Added a clean default font */
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 * {
   box-sizing: border-box;
+}
+
+/* --- NEW UI UPGRADES BELOW --- */
+
+.branch-card {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform, box-shadow;
+}
+
+.branch-card:hover {
+  transform: translateY(-12px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1) !important;
 }
